@@ -91,8 +91,8 @@ You can either download existing animations from [lottiefiles.com](https://lotti
 
 ### Multiple images with wait after
 
-<video src="./.github/proto-images.mp4">
+[Multiple images (MP4-Video)](./.github/proto-images.mp4)
 
 ### Lottie animation
 
-<video src="./.github/proto-lottie.mp4">
+[Lottie animation](./.github/proto-lottie.mp4)
