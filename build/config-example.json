@@ -1,0 +1,82 @@
+{
+    "initialCommand": "1",
+    "width": 64,
+    "height": 32,
+    "chainLength": 1,
+    "commands": {
+        "1": {
+            "sequence": "idle"
+        },
+        "2": {
+            "sequence": "big_eyes"
+        },
+        "3": {
+            "sequence": "cool"
+        },
+        "4": {
+            "sequence": "heart"
+        },
+        "5": {
+            "sequence": "dots"
+        },
+        "9": {
+            "sequence": "boop"
+        }
+    },
+    "sequences": {
+        "idle": {
+            "speed": 0,
+            "images": [
+                "images/Idle.ppm"
+            ]
+        },
+        "big_eyes": {
+            "speed": 0,
+            "images": [
+                "images/Big_Eyes.ppm"
+            ]
+        },
+        "cool": {
+            "speed": 0,
+            "images": [
+                "images/Cool.ppm"
+            ]
+        },
+        "heart": {
+            "speed": 0,
+            "images": [
+                "images/Heart.ppm"
+            ]
+        },
+        "boop": {
+            "speed": 0,
+            "images": [
+                "images/Boop.ppm"
+            ]
+        },
+        "test": {
+            "speed": 50,
+            "waitAfter": 5000,
+            "images": [
+                "images/test/Suit_Face_1.ppm",
+                "images/test/Suit_Face_5.ppm",
+                "images/test/Suit_Face_6.ppm",
+                "images/test/Suit_Face_7.ppm",
+                "images/test/Suit_Face_8.ppm",
+                "images/test/Suit_Face_9.ppm",
+                "images/test/Suit_Face_10.ppm",
+                "images/test/Suit_Face_11.ppm",
+                "images/test/Suit_Face_10.ppm",
+                "images/test/Suit_Face_9.ppm",
+                "images/test/Suit_Face_8.ppm",
+                "images/test/Suit_Face_7.ppm",
+                "images/test/Suit_Face_6.ppm",
+                "images/test/Suit_Face_5.ppm"
+            ]
+        },
+        "dots": {
+            "type": "animation",
+            "animation": "animations/test-proot.json"
+        }
+    }
+}

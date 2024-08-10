@@ -1,0 +1,4 @@
+build/rpi-protogen-display
+build/config.json
+build/images/*
+build/animations/*

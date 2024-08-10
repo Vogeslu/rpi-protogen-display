@@ -1,0 +1,8 @@
+rpi-protogen-display
+
+*.o
+*.a
+*~
+*.so
+.envrc
+.direnv
