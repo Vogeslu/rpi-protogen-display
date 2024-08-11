@@ -122,11 +122,54 @@ namespace
                 int waitAfter = sequenceValue.get("waitAfter", speed).asInt();
                 bool reverse = sequenceValue.get("reverse", false).asBool();
 
-
                 pImageSequence = LottieSystem::CreateSequenceFromAnimation(animation, speed, waitAfter, reverse);
             }
             
             m_ImageSequences[sequenceName.c_str()] = pImageSequence;
+        }
+
+        // Read again to fetch remaining transitions
+
+        for(auto const& sequenceName : sequences.getMemberNames())
+        {
+            Json::Value sequenceValue = sequences[sequenceName];
+
+            CImageSequence* pImageSequence = FindImageSequence(sequenceName);
+
+            if(pImageSequence == NULL)
+            {
+                continue;
+            }
+
+            Json::Value transitions = sequenceValue["transitions"];
+
+            if(transitions == Json::Value::null)
+            {
+                continue;
+            }
+
+            for(auto const& transitionTarget : transitions.getMemberNames())
+            {
+                CImageSequence* pTargetSequence = FindImageSequence(transitionTarget);
+
+                if(pTargetSequence == NULL)
+                {
+                    continue;
+                }
+
+                Json::Value transitionSequence = transitions[transitionTarget];
+
+                CImageSequence* pTransitionSequence = FindImageSequence(transitionSequence.asString());
+
+                if(pTransitionSequence == NULL)
+                {
+                    continue;
+                }
+
+                printf("Adding transition %s -> %s -> %s\n", sequenceName.c_str(), transitionSequence.asString().c_str(), transitionTarget.c_str());
+            
+                pImageSequence->AddTransition(pTargetSequence, pTransitionSequence);
+            }
         }
     }
 }

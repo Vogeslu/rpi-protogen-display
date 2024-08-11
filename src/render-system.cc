@@ -99,7 +99,13 @@ namespace
 
         if(pImage == m_pPreviousImage)
         {
-            pImageSequence->CheckImageSwitch();
+            bool endReached = pImageSequence->CheckImageSwitch();
+
+            if(endReached && pCurrentCommand->IsInTransition())
+            {
+                pCurrentCommand->ClearCurrentTransition();
+            }
+            
             return;
         }
         
@@ -120,7 +126,12 @@ namespace
 
         m_pOffscreenCanvas = m_pRgbMatrix->SwapOnVSync(m_pOffscreenCanvas);
         
-        pImageSequence->CheckImageSwitch();
+        bool endReached = pImageSequence->CheckImageSwitch();
+
+        if(endReached && pCurrentCommand->IsInTransition())
+        {
+            pCurrentCommand->ClearCurrentTransition();
+        }
     }
 }
 

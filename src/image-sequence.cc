@@ -17,6 +17,24 @@ CImageSequence::~CImageSequence()
     Delete();
 }
 
+void CImageSequence::AddTransition(CImageSequence* _TargetSequence, CImageSequence* _TransitionSequence)
+{
+    m_Transitions[_TargetSequence] = _TransitionSequence;
+}
+
+CImageSequence* CImageSequence::FindTransitionToSequence(CImageSequence* _TargetSequence)
+{
+    for(const auto& [pTargetSequence, pTransitionSequence] : m_Transitions)
+    {
+        if(pTargetSequence == _TargetSequence)
+        {
+            return pTransitionSequence;
+        }
+    }
+
+    return NULL;
+}
+
 void CImageSequence::Delete()
 {
     Reset();
@@ -29,6 +47,7 @@ void CImageSequence::Reset()
     m_CurrentImage = 0;
     m_Speed = 0;
     m_WaitAfter = 0;
+    m_Transitions.clear();
 }
 
 void CImageSequence::Restart()
@@ -49,12 +68,14 @@ const CImage* CImageSequence::GetImage() const
     return m_Images[m_CurrentImage];
 }
 
-void CImageSequence::NextImage()
+bool CImageSequence::NextImage()
 {
     m_CurrentImage = (m_CurrentImage + 1) % m_ImageCount;
+
+    return m_CurrentImage == 0;
 }
 
-void CImageSequence::CheckImageSwitch()
+bool CImageSequence::CheckImageSwitch()
 {
     uint64_t milliseconds = GetCurrentMilliseconds();
 
@@ -62,11 +83,12 @@ void CImageSequence::CheckImageSwitch()
 
     if ((m_LastImageSwitch + waitTime) > milliseconds)
     {
-        return;
+        return false;
     }
 
-    NextImage();
     m_LastImageSwitch = milliseconds;
+
+    return NextImage();
 }
 
 uint64_t CImageSequence::GetCurrentMilliseconds()

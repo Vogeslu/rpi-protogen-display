@@ -71,7 +71,24 @@ namespace
 
         printf("Updating current command to %s\n", _CommandName.c_str());
 
+        m_pCurrentCommand->ClearCurrentTransition();
+        pCommand->ClearCurrentTransition();
+        
+        CImageSequence* pCurrentImageSequence = (CImageSequence*) m_pCurrentCommand->GetImageSequence();
+        CImageSequence* pTargetImageSequence = (CImageSequence*) pCommand->GetImageSequence();
+
+        CImageSequence* pTransitionSequence = pCurrentImageSequence->FindTransitionToSequence(pTargetImageSequence);
+
         m_pCurrentCommand = pCommand;
+
+        if(pTransitionSequence != NULL)
+        {
+            printf("Playing transition before %s\n", _CommandName.c_str());
+            
+            pTransitionSequence->Restart();
+
+            m_pCurrentCommand->SetCurrentTransition(pTransitionSequence);
+        }
 
         CImageSequence* pImageSequence = (CImageSequence*) m_pCurrentCommand->GetImageSequence();
         

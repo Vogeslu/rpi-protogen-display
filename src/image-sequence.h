@@ -4,6 +4,8 @@
 #include <vector>
 #include <chrono>
 #include <cstdint>
+#include <string>
+#include <map>
 
 #include "image.h"
 
@@ -16,6 +18,9 @@ public:
     ~CImageSequence();
 
 public:
+    void AddTransition(CImageSequence* _TargetSequence, CImageSequence* _TransitionSequence);
+    CImageSequence* FindTransitionToSequence(CImageSequence* _TargetSequence);
+
     void Delete();
     void Reset();
     bool IsValid();
@@ -23,9 +28,9 @@ public:
     void Restart();
 
     const CImage* GetImage() const;
-    void NextImage();
+    bool NextImage();
 
-    void CheckImageSwitch();
+    bool CheckImageSwitch();
 
 private:
     uint64_t GetCurrentMilliseconds();
@@ -36,6 +41,7 @@ private:
     int m_CurrentImage;
     int m_Speed;
     int m_WaitAfter;
+    std::map<CImageSequence*, CImageSequence*> m_Transitions;
 
     uint64_t m_LastImageSwitch;
 };
