@@ -7,6 +7,7 @@
 #include "lottie-system.h"
 
 #include <vector>
+#include <algorithm>
 
 namespace
 {
@@ -93,6 +94,7 @@ namespace
             {
                 int speed = sequenceValue.get("speed", 0).asInt();
                 int waitAfter = sequenceValue.get("waitAfter", speed).asInt();
+                bool reverse = sequenceValue.get("reverse", false).asBool();
 
                 Json::Value imagesValue = sequenceValue["images"];
 
@@ -107,14 +109,21 @@ namespace
                     images.push_back(ImageLoader::LoadImageFromPPMFile(filePath));
                 }
 
+                if(reverse)
+                {
+                    std::reverse(images.begin(), images.end());
+                }
+
                 pImageSequence = new CImageSequence(images, imageCount, speed, waitAfter);
             } else
             {
                 std::string animation = sequenceValue.get("animation", "").asString();
                 int speed = sequenceValue.get("speed", 20).asInt();
                 int waitAfter = sequenceValue.get("waitAfter", speed).asInt();
+                bool reverse = sequenceValue.get("reverse", false).asBool();
 
-                pImageSequence = LottieSystem::CreateSequenceFromAnimation(animation, speed, waitAfter);
+
+                pImageSequence = LottieSystem::CreateSequenceFromAnimation(animation, speed, waitAfter, reverse);
             }
             
             m_ImageSequences[sequenceName.c_str()] = pImageSequence;

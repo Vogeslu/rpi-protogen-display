@@ -5,6 +5,7 @@
 #include "config-system.h"
 
 #include <vector>
+#include <algorithm>
 
 namespace
 {
@@ -19,7 +20,7 @@ namespace
         void Finalize();
 
     public:
-        CImageSequence* CreateSequenceFromAnimation(std::string _AnimationFileName, int _Speed, int _WaitAfter);
+        CImageSequence* CreateSequenceFromAnimation(std::string _AnimationFileName, int _Speed, int _WaitAfter, bool _Reverse);
 
     private:
         std::vector<CImage*> m_Images;
@@ -53,7 +54,7 @@ namespace
     }
 
     
-    CImageSequence* CLottieSystem::CreateSequenceFromAnimation(std::string _AnimationFileName, int _Speed, int _WaitAfter)
+    CImageSequence* CLottieSystem::CreateSequenceFromAnimation(std::string _AnimationFileName, int _Speed, int _WaitAfter, bool _Reverse)
     {
         const char* pAnimationFileName = _AnimationFileName.c_str();
 
@@ -103,6 +104,11 @@ namespace
             m_Images.push_back(pImage);
         }
 
+        if(_Reverse)
+        {
+            std::reverse(images.begin(), images.end());
+        }
+
         free(pBuffer);
 
         CImageSequence* pImageSequence = new CImageSequence(images, totalFrames, _Speed, _WaitAfter);
@@ -124,8 +130,8 @@ namespace LottieSystem
     }
 
     
-    CImageSequence* CreateSequenceFromAnimation(std::string _AnimationFileName, int _Speed, int _WaitAfter)
+    CImageSequence* CreateSequenceFromAnimation(std::string _AnimationFileName, int _Speed, int _WaitAfter, bool _Reverse)
     {
-        return CLottieSystem::GetInstance().CreateSequenceFromAnimation(_AnimationFileName, _Speed, _WaitAfter);
+        return CLottieSystem::GetInstance().CreateSequenceFromAnimation(_AnimationFileName, _Speed, _WaitAfter, _Reverse);
     }
 }
